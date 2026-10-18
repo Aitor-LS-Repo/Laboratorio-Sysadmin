@@ -1,7 +1,7 @@
 # Active Directory, DNS y DHCP
 
 Estado: `operativo`
-Última revisión: `<AAAA-MM-DD>`
+Última revisión: `<18/10/2026>`
 
 ## Objetivo
 
@@ -57,6 +57,11 @@ En la pestaña **Perfil** de cada usuario se define la carpeta particular: unida
 ### 3. LDAPS
 
 Certificado emitido por la CA interna para el controlador de dominio, para que pfSense autentique por LDAPS en vez de LDAP sin cifrar.
+
+## Integraciones
+pfSense ↔ Active Directory
+- La autenticación VPN no utiliza cuentas administrativas. A través de LDAP, se usan las cuentas de dominio.
+- Se creó una cuenta de servicio dedicada con permisos mínimos de lectura para realizar consultas LDAP y LDAPS.
 
 ## Cómo compruebo que funciona
 
