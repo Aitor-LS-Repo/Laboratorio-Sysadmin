@@ -51,13 +51,26 @@ Así cualquier usuario ve la lista de carpetas, pero solo entra en la suya.
 ### 5. Carpeta personal automática
 
 En el perfil del usuario en AD: unidad `G:` hacia `\\<servidor-nas>\Archivos\%username%`.
+## Decisiones de diseño
 
-## Cómo compruebo que funciona
+### Uso de datasets independientes
 
-1. Con un usuario normal, accedo a `\\<servidor-nas>\Archivos`: veo todas las carpetas.
-2. Entro en la mía sin problema.
-3. Prueba negativa: entro en la de otro usuario y recibo acceso denegado.
-4. Prueba negativa: intento borrar la carpeta raíz del share y se bloquea.
+Las carpetas personales y los recursos públicos se almacenan en datasets separados.
+
+Motivos:
+- Aplicar ACL independientes.
+- Implementar cuotas en el futuro.
+- Crear snapshots por área.
+- Simplificar restauraciones.
+
+## Validación
+
+### Pruebas realizadas
+- Acceso a carpeta personal autorizada.
+- Denegación de acceso a carpetas de otros usuarios.
+- Enumeración correcta de recursos compartidos.
+- Protección de la raíz del recurso compartido.
+- Resolución de identidades desde Active Directory..
 
 ## Mejoras pendientes
 
