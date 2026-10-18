@@ -54,6 +54,7 @@ Todo el enrutamiento y el filtrado entre zonas lo hace pfSense con política de 
 |---|---|---|
 | Red | pfSense, VLANs y reglas de firewall | [01-red-pfsense](docs/01-red-pfsense.md) |
 | Identidad | Active Directory, DNS, DHCP, GPO | [02-active-directory](docs/02-active-directory.md) |
+| GPO | Políticas aplicadas | [08-GPO](docs/08-GPO.md) |
 | Almacenamiento | TrueNAS integrado en el dominio, permisos por grupo | [03-truenas-permisos](docs/03-truenas-permisos.md) |
 | Acceso remoto | OpenVPN con LDAPS y filtrado por grupo | [04-vpn-ldaps](docs/04-vpn-ldaps.md) |
 | Seguridad | LAPS, BitLocker + TPM, CA interna | [05-laps-bitlocker](docs/05-laps-bitlocker.md) |
