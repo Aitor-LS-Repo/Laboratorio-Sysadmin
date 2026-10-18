@@ -8,8 +8,6 @@ La plataforma integra servicios Microsoft y Linux en un entorno unificado con co
 
 ![Diagrama de red](img/diagrama-red.png)
 
-> Sustituye esta imagen por tu diagrama (draw.io → Exportar como PNG) y guárdala en `img/`.
-
 ## Competencias demostradas
 - Virtualización con Proxmox VE
 - Administración de Active Directory
