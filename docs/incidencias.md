@@ -76,30 +76,6 @@ Problemas reales encontrados durante el montaje del laboratorio, con el formato 
 
 ---
 
-## 7. El repositorio de GNS3 devolvía error 404
-
-**Síntoma:** `apt update` mostraba que el repositorio `ppa:gns3/ppa` no tenía fichero de publicación, y los paquetes `gns3-gui` y `gns3-server` no se encontraban.
-
-**Diagnóstico:** el sistema instalado era una versión intermedia de Ubuntu (no LTS). El repositorio de GNS3 solo publica paquetes para las versiones LTS.
-
-**Solución:** reinstalar con Xubuntu 26.04 LTS y repetir la instalación de GNS3.
-
-**Aprendizaje:** para plantillas que se van a clonar conviene usar siempre una LTS. Además, los nombres de paquete y de repositorio se copian con cuidado: dos fallos fueron por escribir `pga` en lugar de `ppa` y `trigervnc` en lugar de `tigervnc`.
-
----
-
-## 8. Windows 11 no arrancaba dentro de GNS3: falta de KVM
-
-**Síntoma:** al arrancar el nodo, GNS3 avisaba de que `/dev/kvm` no existía, y Windows 11 se quedaba parado en el logo.
-
-**Diagnóstico:** la virtualización anidada no llegaba a la VM de GNS3. Se comprobó el tipo de CPU en Proxmox, el parámetro `nested` del módulo `kvm_intel` en el host y la presencia de `/dev/kvm` y de las extensiones `vmx` dentro de la VM. Sin KVM, QEMU emula por software y Windows es inutilizable.
-
-**Solución:** CPU de la VM en tipo `host`, anidación activa en el nodo, apagado completo de la VM y usuario añadido al grupo `kvm`. No se desactivó KVM como sugería el mensaje.
-
-**Aprendizaje:** cuando se virtualiza dentro de otra virtualización, hay que verificar cada capa por separado y aplicar los cambios de CPU con un apagado completo.
-
----
-
 ## Plantilla para nuevas incidencias
 
 ## N. Título breve del problema
