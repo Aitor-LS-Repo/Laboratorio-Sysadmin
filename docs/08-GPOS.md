@@ -265,3 +265,7 @@ Mediante estas directivas se han puesto en práctica conocimientos de:
 - Despliegue automatizado de software.
 - Integración con WSUS.
 - Automatización de configuración inicial de equipos.
+
+## Problemas encontrados
+
+Ver [incidencias](incidencias.md).
