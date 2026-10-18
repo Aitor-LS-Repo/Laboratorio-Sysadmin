@@ -73,7 +73,7 @@ Registro de problemas reales con su diagnóstico y solución: [incidencias](docs
 - [ ] Reverse proxy con certificados de la CA interna
 - [ ] WSUS y MDT
 - [ ] Automatización con Ansible
-- [ ] Sincronización con Entra ID y certificación AZ-104
+- [ ] Sincronización con Entra ID
 
 ## Aviso
 
