@@ -8,12 +8,14 @@ Estado: `operativo`
 
 # Objetivo
 
-Proporcionar acceso remoto seguro a la infraestructura corporativa mediante dos servicios VPN independientes:
+Proporcionar acceso remoto seguro a la infraestructura mediante dos servicios VPN independientes:
 
 - VPN de administración.
 - VPN de usuarios.
 
-La separación permite aplicar distintos niveles de acceso, reducir la superficie de ataque y mantener aisladas las tareas administrativas de las actividades de usuario.
+Ambas VPN utilizan autenticación centralizada mediante Active Directory y LDAPS, pero aplican distintos niveles de acceso según el perfil del usuario.
+
+Este diseño permite separar las tareas de administración de sistemas del acceso remoto de usuarios finales, aplicando el principio de mínimo privilegio.
 
 ---
 
@@ -25,52 +27,18 @@ La separación permite aplicar distintos niveles de acceso, reducir la superfici
                               ▼
                           pfSense
                               │
-         ┌────────────────────┴────────────────────┐
-         │                                         │
-         ▼                                         ▼
-
- VPN Administradores                        VPN Usuarios
-     UDP 1194                                 UDP 1195
-
-         │                                         │
-
-         ▼                                         ▼
-
-   Grupo VPN_Admins                      Grupo VPN_usuarios
-
-         │                                         │
-
-         ▼                                         ▼
-
- Recursos de gestión                    Recursos corporativos
+      ┌───────────────────────┴────────────────────────┐
+      │                                                │
+      ▼                                                ▼
+ VPN Administradores                            VPN Usuarios
+     UDP 1194                                      UDP 1195
+      │                                                │
+      ▼                                                ▼
+ Grupo VPN_Admins                            Grupo VPN_usuarios
+      │                                                │
+      ▼                                                ▼
+ Recursos de gestión                         Recursos corporativos
 ```
-
----
-
-# Objetivos de la segmentación
-
-## VPN Administradores
-
-Diseñada para personal técnico encargado de:
-
-- Administración de servidores.
-- Gestión de Active Directory.
-- Administración de TrueNAS.
-- Gestión de Proxmox.
-- Mantenimiento de infraestructura.
-
----
-
-## VPN Usuarios
-
-Diseñada para usuarios finales que necesitan:
-
-- Acceso remoto a recursos corporativos.
-- Acceso a almacenamiento compartido.
-- Acceso a aplicaciones internas.
-- Trabajo remoto seguro.
-
-Los usuarios no tienen acceso a sistemas de administración.
 
 ---
 
@@ -81,30 +49,32 @@ Los usuarios no tienen acceso a sistemas de administración.
 - Active Directory
 - LDAP
 - LDAPS
-- Active Directory Certificate Services
+- Active Directory Certificate Services (AD CS)
 - Certificados X.509
 - VLANs
 - Grupos de seguridad de Active Directory
 
 ---
 
-# Autenticación centralizada
+# Integración con Active Directory
 
-Ambas VPN utilizan Active Directory como sistema centralizado de autenticación.
+La autenticación de ambas VPN está centralizada en Active Directory.
 
-La validación se realiza mediante:
+pfSense no almacena usuarios locales para el acceso remoto.
+
+Todas las validaciones se realizan mediante:
 
 ```text
 LDAPS (LDAP sobre SSL/TLS)
 ```
 
-Esto evita el envío de credenciales sin cifrar y elimina la necesidad de mantener usuarios locales en el firewall.
+contra el controlador de dominio.
 
 ---
 
-# Servidor LDAP de autenticación
+# Configuración LDAP
 
-## Configuración
+## Servidor LDAP
 
 | Parámetro | Valor |
 |------------|---------|
@@ -113,27 +83,30 @@ Esto evita el envío de credenciales sin cifrar y elimina la necesidad de manten
 | Puerto | `636` |
 | Transporte | `SSL/TLS Encrypted` |
 | Versión LDAP | `3` |
-| CA utilizada | `CA-2` |
 | Base DN | `DC=lechus,DC=priv` |
 | Contenedor de autenticación | `OU=usuarios,DC=lechus,DC=priv` |
 | Tiempo de espera | `25 segundos` |
 
 ---
 
-# Certificados
+## Certificados
 
-Para permitir LDAPS:
+La autenticación se realiza mediante LDAPS.
 
-- Se desplegó una CA interna.
-- El controlador de dominio dispone de un certificado de servidor.
-- La CA raíz se importó en pfSense.
-- pfSense valida el certificado antes de iniciar la comunicación LDAP.
+Para ello:
+
+- Existe una CA interna corporativa.
+- El controlador de dominio dispone de un certificado válido.
+- La CA raíz se ha importado en pfSense.
+- pfSense valida el certificado antes de establecer la conexión LDAP.
+
+Esto garantiza la confidencialidad de las credenciales y evita ataques de intermediario.
 
 ---
 
-# Cuenta de servicio
+## Cuenta de servicio
 
-Las consultas LDAP se realizan mediante una cuenta de servicio dedicada:
+Las consultas LDAP se realizan mediante una cuenta dedicada:
 
 ```text
 pfssense
@@ -142,9 +115,8 @@ pfssense
 Características:
 
 - Sin privilegios administrativos.
-- Contraseña independiente.
 - Utilizada únicamente para consultas LDAP.
-- Acceso mínimo necesario al directorio.
+- Principio de mínimo privilegio.
 
 ---
 
@@ -152,7 +124,17 @@ Características:
 
 ## Objetivo
 
-Permitir la gestión remota de la infraestructura.
+Permitir la administración remota de la infraestructura.
+
+Está diseñada para tareas de:
+
+- Gestión de Active Directory.
+- Administración de TrueNAS.
+- Administración de Proxmox.
+- Administración de servicios internos.
+- Soporte técnico avanzado.
+
+---
 
 ## Configuración
 
@@ -173,24 +155,31 @@ Consulta LDAP:
 memberOf=CN=VPN_Admins,DC=lechus,DC=priv
 ```
 
-Solo los usuarios miembros del grupo:
+Solo los usuarios pertenecientes al grupo:
 
 ```text
 VPN_Admins
 ```
 
-pueden establecer una conexión válida.
+pueden autenticarse.
 
 ---
 
-## Recursos accesibles
+## Accesos permitidos
 
-- Active Directory
-- DNS
-- TrueNAS
-- Proxmox
-- Servidores de la VLAN 10
-- Sistemas de administración
+Regla de firewall:
+
+```text
+vpn_admin → SERVIDORES_INTER
+```
+
+Permite el acceso a:
+
+- Active Directory.
+- TrueNAS.
+- Proxmox.
+- Servidores de infraestructura.
+- Servicios internos de administración.
 
 ---
 
@@ -198,7 +187,9 @@ pueden establecer una conexión válida.
 
 ## Objetivo
 
-Permitir acceso remoto a recursos corporativos sin exponer sistemas de administración.
+Permitir a los usuarios acceder a recursos corporativos desde ubicaciones externas sin exponer la infraestructura de administración.
+
+---
 
 ## Configuración
 
@@ -206,7 +197,7 @@ Permitir acceso remoto a recursos corporativos sin exponer sistemas de administr
 |------------|---------|
 | Servicio | OpenVPN |
 | Puerto | UDP 1195 |
-| Red VPN | 10.10.9.0/24 |
+| Red del túnel | 10.10.9.0/24 |
 | Autenticación | LDAPS |
 | Grupo autorizado | VPN_usuarios |
 
@@ -221,26 +212,6 @@ Permitir acceso remoto a recursos corporativos sin exponer sistemas de administr
 
 ---
 
-## Algoritmos de cifrado
-
-Configurados:
-
-```text
-AES-256-GCM
-AES-128-GCM
-CHACHA20-POLY1305
-```
-
----
-
-## Integridad
-
-```text
-SHA256
-```
-
----
-
 ## Control de acceso
 
 Consulta LDAP:
@@ -249,111 +220,137 @@ Consulta LDAP:
 memberOf=CN=VPN_usuarios,DC=lechus,DC=priv
 ```
 
-Solo los usuarios pertenecientes al grupo:
+Solo los miembros del grupo:
 
 ```text
 VPN_usuarios
 ```
 
-pueden autenticarse.
+pueden conectarse.
+
+---
+
+## Accesos permitidos
+
+### Recursos compartidos SMB
+
+Regla:
+
+```text
+vpn_usuario → SERVIDORES_INTER → TCP 445
+```
+
+Permite acceder a:
+
+- Carpetas personales.
+- Recursos compartidos de TrueNAS.
+- Almacenamiento corporativo.
+
+---
+
+### Equipos de usuario
+
+Regla:
+
+```text
+vpn_usuario → CLIENTES_INTER
+```
+
+Permite el acceso a los equipos de usuario situados en la VLAN de clientes.
+
+---
+
+## Cifrado
+
+### Algoritmos permitidos
+
+```text
+AES-256-GCM
+AES-128-GCM
+CHACHA20-POLY1305
+```
+
+### Integridad
+
+```text
+SHA256
+```
 
 ---
 
 # Flujo de autenticación
 
 ```text
-Usuario VPN
-      │
-      ▼
-OpenVPN
-      │
-      ▼
-pfSense
-      │
-      ▼
-LDAPS (TCP 636)
-      │
-      ▼
-Active Directory
-      │
-      ▼
-Verificación de pertenencia a grupo
-      │
-      ▼
-Acceso permitido o denegado
+1. El usuario inicia la conexión VPN.
+
+2. OpenVPN envía la autenticación a pfSense.
+
+3. pfSense consulta Active Directory mediante LDAPS.
+
+4. Active Directory valida usuario y contraseña.
+
+5. pfSense comprueba la pertenencia al grupo correspondiente:
+      - VPN_Admins
+      - VPN_usuarios
+
+6. Si la validación es correcta:
+      ► Se establece el túnel VPN.
+
+7. Si falla cualquiera de las comprobaciones:
+      ► Acceso denegado.
 ```
 
 ---
 
-# Medidas de seguridad aplicadas
+# Seguridad implementada
 
-## Active Directory
+## Gestión centralizada
 
-- Gestión centralizada de usuarios.
-- Gestión centralizada de grupos.
-
-## LDAP seguro
-
-- Comunicación cifrada mediante LDAPS.
-- Validación de certificados.
-
-## Autorización
-
-- Control de acceso basado en grupos.
-- Separación entre perfiles técnicos y usuarios finales.
-
-## pfSense
-
-- Firewall perimetral.
-- Reglas específicas para OpenVPN.
-- Segmentación mediante VLANs.
+Todos los usuarios se gestionan desde Active Directory.
 
 ---
 
-# Validaciones realizadas
+## Comunicación cifrada
+
+La autenticación se realiza mediante:
+
+```text
+LDAPS (TCP 636)
+```
+
+---
+
+## Control basado en grupos
+
+La autorización depende de grupos de seguridad del dominio.
+
+---
+
+## Segmentación de acceso
+
+Administradores y usuarios utilizan servicios VPN distintos.
+
+Esto evita que los usuarios finales tengan acceso a sistemas críticos de administración.
+
+---
+
+# Validación
 
 ## VPN Administradores
 
-✅ Usuario miembro de VPN_Admins puede autenticarse.
-
-✅ Usuario fuera de VPN_Admins es rechazado.
-
-✅ Acceso a recursos de administración.
+- Usuario miembro de `VPN_Admins` puede conectarse.
+- Usuario fuera del grupo es rechazado.
+- Acceso a servidores de infraestructura.
 
 ---
 
 ## VPN Usuarios
 
-✅ Usuario miembro de VPN_usuarios puede autenticarse.
+- Usuario miembro de `VPN_usuarios` puede conectarse.
+- Usuario fuera del grupo es rechazado.
+- Obtención correcta de IP del túnel.
+- Acceso a recursos
 
-✅ Usuario fuera de VPN_usuarios es rechazado.
-
-✅ Obtención correcta de dirección IP del túnel.
-
-✅ Acceso a recursos corporativos autorizados.
-
----
-
-# Beneficios obtenidos
-
-- Autenticación centralizada.
-- Eliminación de usuarios locales en pfSense.
-- Control mediante grupos de Active Directory.
-- Separación de perfiles administrativos y usuarios finales.
-- Menor superficie de ataque.
-- Comunicación cifrada extremo a extremo.
-- Gestión simplificada de accesos remotos.
-
----
-
-# Mejoras previstas
-
-- WireGuard como VPN adicional.
-- Integración NPS/RADIUS.
-- MFA para administradores.
-- Restricción granular de recursos por grupo.
-- Registro avanzado de accesos VPN.
-- Alertas y monitorización mediante Uptime Kuma.
 ## Problemas encontrados
 
 Ver [incidencias](incidencias.md), puntos 4 y 5.
