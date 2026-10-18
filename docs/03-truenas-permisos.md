@@ -1,7 +1,7 @@
 # TrueNAS, recursos compartidos y permisos por grupo
 
 Estado: `operativo`
-Última revisión: `<AAAA-MM-DD>`
+Última revisión: `18/10/2026`
 
 ## Objetivo
 
