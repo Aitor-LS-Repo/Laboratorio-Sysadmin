@@ -1,7 +1,7 @@
 # Red y firewall: pfSense, VLANs y reglas
 
 Estado: `operativo`
-Última revisión: `<AAAA-MM-DD>`
+Última revisión: `<18/10/2026>`
 
 ## Objetivo
 
@@ -43,7 +43,8 @@ Cada VM recibe su VLAN Tag en la tarjeta de red virtual de Proxmox:
 | CLIENTES_INTER | Permite TCP/UDP hacia SERVIDORES_INTER solo en el alias `Puertos_AD` | Mínimo privilegio |
 | CLIENTES_INTER | Permite salida a `! Redes_privadas` | Internet sí, otras redes privadas no |
 | SERVIDORES_INTER | Permite desde LAN subnets y desde su propia subred | Pendiente de endurecer |
-| OpenVPN | Permite todo | Pendiente de restringir |
+| OpenVPN Administración | Permite todo | Se deja que puede acceder a la red de servidores |
+| OpenVPN Usuarios | Acceso desde fuera a usuarios | Se aplican las restricciones de CLIENTES_INTER |
 
 ## Cómo compruebo que funciona
 
