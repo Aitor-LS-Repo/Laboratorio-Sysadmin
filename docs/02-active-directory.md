@@ -1,6 +1,6 @@
 # Active Directory, DNS y DHCP
 
-Estado: `operativo` | Última revisión: `<18/10/2026>`
+Estado: `operativo` | Última revisión: `18/10/2026`
 
 ## Objetivo
 
