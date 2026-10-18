@@ -110,7 +110,7 @@ Proteger los equipos del dominio mediante cifrado de disco gestionado centralmen
 
 ### Cifrado de unidades
 
-- BitLocker habilitado para unidades del sistema operativo.
+- BitLocker habilitado para unidades del sistema operativo. Se realizar a través de GPO en PowerShell.
 - Uso de TPM como mecanismo principal de protección.
 
 ### Recuperación
