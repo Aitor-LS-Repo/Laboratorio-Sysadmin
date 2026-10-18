@@ -40,7 +40,7 @@ El servidor solo se enciende durante las sesiones de práctica para controlar ru
 |---|---|---|---|
 | 10 | Servidores | `192.168.10.0/24` | Controlador de dominio, TrueNAS, docker01 |
 | 20 | Clientes | `192.168.20.0/24` | Equipos de usuario Windows 11 |
-| 99 | Gestión | `192.168.99.0/24` | Administración de infraestructura |
+| 1 | Gestión | `192.168.2.0/24` | Administración de infraestructura |
 | VPN | OpenVPN | `10.10.9.0/24` | Túnel de administradores |
 | VPN | OpenVPN | `10.10.10.0/24` | Túnel de usuarios |
 
