@@ -2,7 +2,9 @@
 
 Entorno propio que simula la infraestructura de una pyme: dominio Active Directory, red segmentada con firewall, acceso remoto por VPN con autenticación contra el directorio, almacenamiento en red, cifrado de equipos y servicios en contenedores.
 
-Lo monté para practicar administración de sistemas con servicios que funcionan juntos, y documento cada pieza y cada problema que me encuentro por el camino.
+Este proyecto documenta el diseño, implementación y evolución de una infraestructura corporativa virtualizada orientada a administración de sistemas, seguridad y automatización.
+
+La plataforma integra servicios Microsoft y Linux en un entorno unificado con control de identidades, segmentación de red, acceso remoto seguro, almacenamiento centralizado y monitorización.
 
 ![Diagrama de red](img/diagrama-red.png)
 
