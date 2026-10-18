@@ -10,6 +10,21 @@ La plataforma integra servicios Microsoft y Linux en un entorno unificado con co
 
 > Sustituye esta imagen por tu diagrama (draw.io → Exportar como PNG) y guárdala en `img/`.
 
+##Competencias demostradas
+- Virtualización con Proxmox VE
+- Administración de Active Directory
+- DNS y DHCP corporativos
+- Diseño de VLANs
+- Administración de pfSense
+- Integración LDAP y LDAPS
+- Gestión de certificados mediante CA interna
+- Protección de endpoints con BitLocker y LAPS
+- Gestión de almacenamiento con TrueNAS
+- Despliegue de servicios con Docker y Portainer
+- Monitorización con Uptime Kuma
+- Resolución de incidencias de infraestructura
+
+
 ## Hardware y virtualización
 
 | Elemento | Detalle |
