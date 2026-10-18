@@ -43,8 +43,8 @@ El servidor solo se enciende durante las sesiones de práctica para controlar ru
 | 10 | Servidores | `192.168.10.0/24` | Controlador de dominio, TrueNAS, docker01 |
 | 20 | Clientes | `192.168.20.0/24` | Equipos de usuario Windows 11 |
 | 99 | Gestión | `192.168.99.0/24` | Administración de infraestructura |
-| VPN | OpenVPN | `192.168.40.0/32` | Túnel de administradores |
-| VPN | OpenVPN | `192.168.41.0/32` | Túnel de usuarios |
+| VPN | OpenVPN | `10.10.9.0/24` | Túnel de administradores |
+| VPN | OpenVPN | `10.10.10.0/24` | Túnel de usuarios |
 
 Todo el enrutamiento y el filtrado entre zonas lo hace pfSense con política de mínimo privilegio: cada zona solo puede hablar con lo estrictamente necesario.
 
