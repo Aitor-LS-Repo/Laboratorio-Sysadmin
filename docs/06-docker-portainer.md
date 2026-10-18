@@ -1,8 +1,6 @@
 # Plataforma de contenedores: Docker, Portainer y Monitorización
 
-Estado: `operativo`
-
-Última revisión: `2026-10-18`
+Estado: `operativo` | Última revisión: `18/10/2026`
 
 ---
 
