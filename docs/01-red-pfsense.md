@@ -46,11 +46,11 @@ Cada VM recibe su VLAN Tag en la tarjeta de red virtual de Proxmox:
 | OpenVPN Administración | Permite todo | Se deja que puede acceder a la red de servidores |
 | OpenVPN Usuarios | Acceso desde fuera a usuarios | Se aplican las restricciones de CLIENTES_INTER |
 
-## Cómo compruebo que funciona
-
-1. Desde el cliente Windows 11 (VLAN 20), el inicio de sesión de dominio funciona contra el controlador de dominio.
-2. Desde el cliente, no hay acceso a la red de gestión ni a otras redes privadas fuera de lo permitido.
-3. Prueba negativa: un puerto que no está en `Puertos_AD` se bloquea.
+## Validación realizadas
+- Inicio de sesión contra Active Directory desde VLAN de clientes.
+- Resolución DNS del dominio.
+- Acceso controlado a recursos autorizados.
+- Bloqueo de puertos fuera del conjunto permitido.
 
 ## Mejoras pendientes
 
