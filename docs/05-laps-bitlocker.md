@@ -1,51 +1,309 @@
-# Seguridad de equipos: LAPS y BitLocker
+# Seguridad de equipos: Microsoft LAPS y BitLocker
 
 Estado: `operativo`
-Última revisión: `<AAAA-MM-DD>`
+
+Última revisión: `2026-10-18`
+
+---
+
+# Objetivo
+
+Implementar medidas de seguridad para estaciones de trabajo unidas al dominio centradas en:
+
+- Protección de credenciales locales.
+- Protección de la información almacenada.
+- Gestión centralizada desde Active Directory.
+- Reducción de riesgos de escalada lateral.
+
+La solución se basa en:
+
+- Microsoft LAPS para la gestión de contraseñas administrativas locales.
+- BitLocker para el cifrado completo del disco.
+
+---
+
+# Tecnologías utilizadas
+
+- Active Directory
+- Group Policy (GPO)
+- Microsoft LAPS
+- BitLocker
+- TPM 2.0
+- Windows Server
+- PowerShell
+- Proxmox VE
+
+---
+
+# Arquitectura
+
+```text
+Active Directory
+        │
+        ├── Microsoft LAPS
+        │        │
+        │        └── Contraseñas locales rotatorias
+        │
+        └── BitLocker
+                 │
+                 └── Claves de recuperación
+                     almacenadas en AD
+```
+
+---
+
+# Microsoft LAPS
 
 ## Objetivo
 
-- **LAPS:** que cada equipo tenga una contraseña de administrador local distinta, aleatoria y guardada en AD.
-- **BitLocker:** cifrar el disco de los equipos con TPM y guardar las claves de recuperación en AD.
+Eliminar el uso de contraseñas locales compartidas y garantizar que cada equipo disponga de una contraseña administrativa única.
 
-## LAPS (Windows LAPS)
+---
 
-### Configuración
+## Diseño
 
-1. Extender el esquema de AD: `Update-LapsADSchema`.
-2. Dar permiso a los equipos de una OU para actualizar su propia contraseña: `Set-LapsADComputerSelfPermission -Identity "<OU>"`.
-3. Crear una GPO en **Configuración del equipo → Plantillas administrativas → Sistema → LAPS**: destino de la copia de la contraseña (Active Directory), complejidad, longitud y periodo de rotación.
-4. Activar el cifrado de la contraseña almacenada.
-5. Limitar quién puede leer las contraseñas con `Set-LapsADReadPasswordPermission`.
-6. Vincular la GPO a la OU de equipos y ejecutar `gpupdate /force` en el cliente.
+Cada estación de trabajo mantiene su propia contraseña local.
 
-### Verificación
+La contraseña:
 
-`Get-LapsADPassword -Identity "<equipo>" -AsPlainText` devuelve la contraseña, y coincide al iniciar sesión localmente.
+- Es diferente en cada equipo.
+- Se genera automáticamente.
+- Se rota periódicamente.
+- Se almacena en Active Directory.
+- Solo puede ser consultada por personal autorizado.
 
-## BitLocker con TPM
+---
 
-### Configuración
+## Configuración aplicada
 
-1. **TPM virtual en Proxmox:** en la VM cliente se añade un TPM 2.0 y se usa arranque UEFI (máquina q35 y BIOS OVMF).
-2. **GPO** en **Componentes de Windows → Cifrado de unidad BitLocker → Unidades del sistema operativo**:
-   - *Requerir autenticación adicional al iniciar*: habilitada, con TPM permitido.
-   - Copia de seguridad de la clave de recuperación en AD DS, y obligatoria.
-   - PIN de inicio: **no permitir** (modo transparente, solo TPM).
-3. Vincular la GPO a la OU de equipos.
-4. Activar BitLocker en el cliente. La GPO configura el comportamiento, pero no activa el cifrado por sí sola. Para automatizarlo se puede usar un script con `Enable-BitLocker` desplegado por GPO.
+### Almacenamiento
 
-### Verificación
+```text
+Active Directory
+```
 
-1. La clave de recuperación aparece en la pestaña **BitLocker Recovery** del objeto de equipo en AD.
-2. `gpresult /h informe.html /scope:computer` confirma las directivas aplicadas.
-3. `manage-bde -status` muestra el estado del cifrado y los protectores.
+---
 
-## Cuidado
+### Requisitos
 
-- No activar BitLocker en servidores críticos sin tener antes la clave de recuperación guardada y comprobada.
-- Cambiar la GPO no quita el protector de PIN de un disco ya cifrado: hay que sustituirlo con `manage-bde -protectors`.
-- Si BitLocker está activo, Sysprep falla.
+- Esquema de Active Directory ampliado mediante:
+
+```powershell
+Update-LapsADSchema
+```
+
+- Permisos delegados para que los equipos actualicen su propia contraseña.
+
+---
+
+### Política aplicada
+
+| Parámetro | Valor |
+|------------|---------|
+| Destino de copia | Active Directory |
+| Cifrado de contraseña | Activado |
+| Longitud mínima | 12 caracteres |
+| Complejidad | Activada |
+| Rotación | 30 días |
+
+---
+
+## Beneficios
+
+- Eliminación de credenciales compartidas.
+- Reducción de movimientos laterales.
+- Gestión centralizada.
+- Rotación automática de credenciales.
+- Auditoría del acceso administrativo.
+
+---
+
+## Validación
+
+Consulta de contraseña:
+
+```powershell
+Get-LapsADPassword -Identity EQUIPO
+```
+
+Resultado esperado:
+
+✅ Contraseña recuperada desde Active Directory.
+
+✅ Inicio de sesión local funcional.
+
+---
+
+# BitLocker
+
+## Objetivo
+
+Proteger los equipos frente a:
+
+- Robo.
+- Pérdida.
+- Acceso físico no autorizado.
+
+mediante cifrado completo de disco.
+
+---
+
+## Diseño
+
+La infraestructura utiliza:
+
+```text
+BitLocker + TPM
+```
+
+sin PIN adicional.
+
+Las claves de recuperación son almacenadas automáticamente en Active Directory.
+
+---
+
+## Configuración aplicada
+
+### TPM
+
+Configuración:
+
+```text
+TPM 2.0
+```
+
+Implementado mediante:
+
+```text
+Proxmox
+→ TPM Virtual
+→ OVMF (UEFI)
+→ Máquina Q35
+```
+
+---
+
+### Protección de arranque
+
+| Parámetro | Valor |
+|------------|---------|
+| TPM | Permitido |
+| PIN | No utilizado |
+| Clave USB | No utilizada |
+| Modo | TPM Only |
+
+---
+
+### Recuperación
+
+Configuración aplicada:
+
+- Almacenamiento obligatorio en AD.
+- Contraseña de recuperación de 48 dígitos.
+- Clave de recuperación de 256 bits.
+- Paquete de recuperación almacenado en Active Directory.
+
+---
+
+## Beneficios
+
+- Protección de la información corporativa.
+- Recuperación centralizada.
+- Gestión desde Active Directory.
+- Transparencia para el usuario.
+- Cumplimiento de buenas prácticas de seguridad.
+
+---
+
+## Validación
+
+### Estado de BitLocker
+
+```cmd
+manage-bde -status
+```
+
+Resultado esperado:
+
+- Unidad cifrada.
+- TPM configurado como protector.
+
+---
+
+### Recuperación
+
+Comprobación mediante:
+
+```text
+Usuarios y equipos de Active Directory
+→ Equipo
+→ BitLocker Recovery
+```
+
+Resultado esperado:
+
+✅ Claves de recuperación almacenadas correctamente.
+
+---
+
+### Aplicación de GPO
+
+```cmd
+gpresult /h informe.html /scope:computer
+```
+
+Resultado esperado:
+
+✅ Políticas correctamente aplicadas.
+
+---
+
+# Riesgos mitigados
+
+## Microsoft LAPS
+
+- Contraseñas locales compartidas.
+- Escalada lateral entre equipos.
+- Accesos persistentes mediante cuentas locales.
+
+---
+
+## BitLocker
+
+- Robo de portátiles.
+- Extracción de discos.
+- Acceso físico a equipos apagados.
+
+---
+
+# Integración con la infraestructura
+
+Esta solución se integra con:
+
+- Active Directory.
+- GPO corporativas.
+- VLAN de clientes.
+- VPN administrativa.
+- Administración centralizada del dominio.
+
+---
+
+# Lecciones aprendidas
+
+- LAPS requiere preparar previamente el esquema de Active Directory.
+- El cifrado BitLocker debe validarse antes de su despliegue masivo.
+- Las claves de recuperación deben comprobarse periódicamente.
+- El TPM virtual de Proxmox permite reproducir escenarios empresariales en entornos virtualizados.
+
+---
+
+# Mejoras previstas
+
+- Automatización de activación mediante PowerShell.
+- Auditoría periódica de equipos cifrados.
+- Supervisión de cumplimiento mediante scripts.
+- Informes centralizados sobre estado de BitLocker y LAPS.
+``
 
 ## Problemas encontrados
 
