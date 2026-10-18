@@ -24,9 +24,10 @@ El servidor solo se enciende durante las sesiones de práctica para controlar ru
 | VLAN | Nombre | Rango | Contenido |
 |---|---|---|---|
 | 10 | Servidores | `192.168.10.0/24` | Controlador de dominio, TrueNAS, docker01 |
-| 20 | Clientes | `<rango>` | Equipos de usuario Windows 11 |
-| 99 | Gestión | `<rango>` | Administración de infraestructura |
-| VPN | OpenVPN | `<rango>` | Túnel de administradores |
+| 20 | Clientes | `192.168.20.0/24` | Equipos de usuario Windows 11 |
+| 99 | Gestión | `192.168.99.0/24` | Administración de infraestructura |
+| VPN | OpenVPN | `192.168.40.0/32` | Túnel de administradores |
+| VPN | OpenVPN | `192.168.41.0/32` | Túnel de usuarios |
 
 Todo el enrutamiento y el filtrado entre zonas lo hace pfSense con política de mínimo privilegio: cada zona solo puede hablar con lo estrictamente necesario.
 
@@ -40,7 +41,6 @@ Todo el enrutamiento y el filtrado entre zonas lo hace pfSense con política de 
 | Acceso remoto | OpenVPN con LDAPS y filtrado por grupo | [04-vpn-ldaps](docs/04-vpn-ldaps.md) |
 | Seguridad | LAPS, BitLocker + TPM, CA interna | [05-laps-bitlocker](docs/05-laps-bitlocker.md) |
 | Contenedores | Docker, Portainer, Uptime Kuma | [06-docker-portainer](docs/06-docker-portainer.md) |
-| Formación | GNS3 por alumno, con plantilla de Windows 11 | [07-gns3-clases](docs/07-gns3-clases.md) |
 
 ## Incidencias resueltas
 
@@ -51,7 +51,6 @@ Registro de problemas reales con su diagnóstico y solución: [incidencias](docs
 - [x] Red segmentada, VPN y CA interna
 - [x] Dominio, LAPS, BitLocker y permisos
 - [x] Docker, Portainer y monitorización con alertas
-- [ ] Laboratorios de GNS3 para clases (plantilla en pruebas)
 - [ ] Backups automáticos con restauración comprobada
 - [ ] Reverse proxy con certificados de la CA interna
 - [ ] WSUS y MDT
