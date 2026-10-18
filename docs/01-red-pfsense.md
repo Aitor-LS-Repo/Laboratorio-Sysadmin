@@ -1,7 +1,6 @@
 # Red y firewall: pfSense, VLANs y reglas
 
-Estado: `operativo`
-Última revisión: `<18/10/2026>`
+Estado: `operativo` | Última revisión: `18/10/2026`
 
 ## Objetivo
 
