@@ -11,7 +11,7 @@ Segmentar la red del laboratorio como en una empresa real: servidores, clientes 
 | Dato | Valor |
 |---|---|
 | Máquina | VM `pfSense` en Proxmox |
-| Versión | pfSense CE `<versión>` |
+| Versión | pfSense CE `2.9.0` |
 | Interfaces | WAN, LAN, SERVIDORES_INTER, CLIENTES_INTER, OpenVPN |
 | Red de gestión del host Proxmox | `192.168.1.130/24`, puerta de enlace `192.168.1.1` |
 | VLAN de servidores | `192.168.10.0/24` |
