@@ -16,26 +16,16 @@ Segmentar la red del laboratorio como en una empresa real: servidores, clientes 
 | Interfaces | WAN, LAN, SERVIDORES_INTER, CLIENTES_INTER, OpenVPN |
 | Red de gestión del host Proxmox | `192.168.1.130/24`, puerta de enlace `192.168.1.1` |
 | VLAN de servidores | `192.168.10.0/24` |
-| VLAN de clientes | `<rango>` |
-
-## Requisitos previos
-
-- Proxmox instalado con el bridge `vmbr0` (puerto físico `nic0`).
-- ISO de pfSense CE descargada de la web oficial (pfsense.org).
+| VLAN de clientes | `192.168.20.0/24` |
 
 ## Configuración
 
 ### 1. Bridge de Proxmox con soporte de VLAN
 
-En **Nodo → Sistema → Red**, se edita `vmbr0` y se activa **Consciente de VLAN** (VLAN aware). Se aplica la configuración de red y se reinicia el bridge.
+- En **Nodo → Sistema → Red**, se edita `vmbr0` se deja como está ya que va a ser la conexión WAN.
+- En **Nodo → Sistema → Red**, se edita `vmbr1` y se activa **Consciente de VLAN** (VLAN aware). Se aplica la configuración de red y se reinicia el bridge.
 
-### 2. VM de pfSense
-
-- Máquina creada con la ISO de pfSense CE (tipo Other OS, 2 núcleos, 2 GB de RAM, disco de unos 8-20 GB).
-- Una interfaz hacia la WAN y otra interfaz **sin VLAN tag** (trunk), que recibe todas las VLAN.
-- En pfSense, en **Interfaces → Assignments → VLANs**, se crea cada VLAN sobre la interfaz trunk y se asigna como interfaz con su propia IP de puerta de enlace.
-
-### 3. Asignación de VLAN a las máquinas
+### 2. Asignación de VLAN a las máquinas
 
 Cada VM recibe su VLAN Tag en la tarjeta de red virtual de Proxmox:
 
