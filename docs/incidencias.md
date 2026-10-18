@@ -100,18 +100,6 @@ Problemas reales encontrados durante el montaje del laboratorio, con el formato 
 
 ---
 
-## 9. La consola VNC de GNS3 no se abría
-
-**Síntoma:** GNS3 mostraba que no podía ejecutar `vncviewer`.
-
-**Diagnóstico:** el programa no estaba instalado en la VM.
-
-**Solución:** `apt install tigervnc-viewer`.
-
-**Aprendizaje:** GNS3 depende de programas externos para las consolas, y el mensaje de error nombra el comando que falta.
-
----
-
 ## Plantilla para nuevas incidencias
 
 ## N. Título breve del problema
