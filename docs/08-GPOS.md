@@ -1,6 +1,6 @@
 # Directivas de Grupo (GPO) implantadas
 
-Estado: `operativo`
+Estado: `operativo` | Última revisión: 18/10/2026
 
 ## Objetivo
 
