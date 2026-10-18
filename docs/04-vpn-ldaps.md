@@ -1,7 +1,7 @@
 # VPN de administradores: OpenVPN con LDAPS
 
 Estado: `operativo`
-Última revisión: `<AAAA-MM-DD>`
+Última revisión: `18/10/2026`
 
 ## Objetivo
 
