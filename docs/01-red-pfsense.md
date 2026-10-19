@@ -31,7 +31,8 @@ Cada VM recibe su VLAN Tag en la tarjeta de red virtual de Proxmox:
 | Máquina | VLAN |
 |---|---|
 | Controlador de dominio, TrueNAS, docker01 | 10 (Servidores) |
-| Cliente Windows 11 | 20 (Clientes) |
+| Cliente | 20 (Clientes) |
+| Administración | 1 (Administración de red y PFsense) |
 
 ## Reglas de firewall
 
