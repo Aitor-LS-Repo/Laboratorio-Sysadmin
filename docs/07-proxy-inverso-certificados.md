@@ -1,8 +1,6 @@
 # Proxy inverso con Nginx Proxy Manager
 
-Estado: `operativo`
-
-Última revisión: `2026-10-18`
+Estado: `operativo` | Última revisión: `2026-10-18`
 
 ---
 
