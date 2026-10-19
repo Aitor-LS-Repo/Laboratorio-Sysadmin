@@ -38,7 +38,7 @@ Cada VM recibe su VLAN Tag en la tarjeta de red virtual de Proxmox:
 
 | Interfaz | Regla | Comentario |
 |---|---|---|
-| WAN | Permite UDP 1194 hacia la dirección WAN | Solo la VPN. Creada por el asistente de OpenVPN |
+| WAN | Permite UDP 1194 y 1195 hacia la dirección WAN | Solo las VPNs. Creada en OpenVPN |
 | LAN | Permite todo desde LAN subnets (reglas por defecto) | Aceptable porque es la red de gestión |
 | CLIENTES_INTER | Permite TCP/UDP hacia SERVIDORES_INTER solo en el alias `Puertos_AD` | Mínimo privilegio |
 | CLIENTES_INTER | Permite salida a `! Redes_privadas` | Internet sí, otras redes privadas no |
