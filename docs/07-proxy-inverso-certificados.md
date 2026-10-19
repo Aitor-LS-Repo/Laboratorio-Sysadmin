@@ -11,7 +11,7 @@ Centralizar el acceso a los servicios web internos mediante nombres DNS y conexi
 La solución permite acceder a los servicios corporativos utilizando nombres fáciles de recordar, evitando el uso de direcciones IP y puertos específicos.
 
 ---
-![Diagrama de red](img/nginx.png)
+![Diagrama de red](../img/nginx.png)
 
 
 # Dónde vive
