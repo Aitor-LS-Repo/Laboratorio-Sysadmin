@@ -57,7 +57,7 @@ Todo el enrutamiento y el filtrado entre zonas lo hace pfSense con política de 
 | Acceso remoto | OpenVPN con LDAPS y filtrado por grupo | [04-vpn-ldaps](docs/04-vpn-ldaps.md) |
 | Seguridad | LAPS, BitLocker + TPM, CA interna | [05-laps-bitlocker](docs/05-laps-bitlocker.md) |
 | Contenedores | Docker, Portainer, Uptime Kuma | [06-docker-portainer](docs/06-docker-portainer.md) |
-| Proxy inverso | Nginx Proxy Manager, certificados internos y HTTPS | [07-proxy-inverso-certificadosados.md](07-proxy-inverso-certificadosados.md) |
+| Proxy inverso | Nginx Proxy Manager, certificados internos y HTTPS | [07-proxy-inverso-certificadosados.md](docs/07-proxy-inverso-certificadosados.md) |
 
 ## Incidencias resueltas
 
