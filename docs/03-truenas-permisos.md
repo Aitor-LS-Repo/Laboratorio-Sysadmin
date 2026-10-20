@@ -71,6 +71,14 @@ Motivos:
 - Enumeración correcta de recursos compartidos.
 - Protección de la raíz del recurso compartido.
 - Resolución de identidades desde Active Directory..
+  
+### Comprobación de funcionamiento
+
+#### Configuración de dominio
+![Reglas](../img/Acceso_carpetas/01.png)
+
+#### Comprobación en Host
+![Reglas](../img/Acceso_carpetas/02.png)
 
 ## Mejoras pendientes
 
