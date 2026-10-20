@@ -61,6 +61,9 @@ Cada VM recibe su VLAN Tag en la tarjeta de red virtual de Proxmox:
 - Acceso controlado a recursos autorizados.
 - Bloqueo de puertos fuera del conjunto permitido.
 
+### Muestra de funcionamiento
+![Alias de redes](../img/dominio/03.png)
+
 ## Mejoras pendientes
 
 - Activar el registro (log) de la regla de WAN y limitar las conexiones nuevas por origen.
