@@ -340,6 +340,14 @@ Esto evita que los usuarios finales tengan acceso a sistemas críticos de admini
 - Usuario fuera del grupo es rechazado.
 - Acceso a servidores de infraestructura.
 
+### Servidores de Autenticación LDAPS
+![usuarios](../img/OpenVPN/01.png)
+
+### Servidores VPN
+![servidores](../img/OpenVPN/02.png)
+
+### Resultado
+![Reglas](../img/OpenVPN/03.png)
 ---
 
 ## VPN Usuarios
