@@ -46,6 +46,15 @@ Cada VM recibe su VLAN Tag en la tarjeta de red virtual de Proxmox:
 | OpenVPN Administración | Permite todo | Se deja que puede acceder a la red de servidores |
 | OpenVPN Usuarios | Acceso desde fuera a usuarios | Se aplican las restricciones de CLIENTES_INTER |
 
+### Lista de puertos a abrir a la red de servidores
+![Grupo de puertos](..img/pfsense/01.png)
+
+### Lista de alias de redes
+![Alias de redes](..img/pfsense/02.png)
+
+### Reglas de LAN a WAN
+![Reglas](..img/pfsense/03.png)
+
 ## Validación realizadas
 - Inicio de sesión contra Active Directory desde VLAN de clientes.
 - Resolución DNS del dominio.
