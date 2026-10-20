@@ -62,7 +62,7 @@ Cada VM recibe su VLAN Tag en la tarjeta de red virtual de Proxmox:
 - Bloqueo de puertos fuera del conjunto permitido.
 
 ### Muestra de funcionamiento
-![Alias de redes](../img/dominio/01.png)
+![Alias de redes](../img/Dominio/01.png)
 
 ## Mejoras pendientes
 
