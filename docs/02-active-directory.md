@@ -68,6 +68,9 @@ pfSense ↔ Active Directory
 2. El usuario recibe su unidad `G:` con su carpeta personal.
 3. `gpresult /r /scope:computer` muestra las GPO aplicadas al equipo.
 
+### Ejemplo.
+![Validación](../img/Dominio/02.png)
+
 ## Mantenimiento
 
 - Copias de seguridad: `<pendiente: backup de la VM desde Proxmox>`
