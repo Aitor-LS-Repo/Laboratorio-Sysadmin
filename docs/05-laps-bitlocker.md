@@ -130,6 +130,10 @@ Resultado esperado:
 
 ✅ Inicio de sesión local funcional.
 
+### Ejemplo
+
+![Validación](../img/Dominio/03.png)
+
 ---
 
 # BitLocker
@@ -285,6 +289,10 @@ Esta solución se integra con:
 - Administración centralizada del dominio.
 
 ---
+
+### Ejemplo
+
+![Validación](../img/Dominio/03.png)
 
 # Lecciones aprendidas
 
