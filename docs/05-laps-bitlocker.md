@@ -288,11 +288,11 @@ Esta solución se integra con:
 - VPN administrativa.
 - Administración centralizada del dominio.
 
----
-
 ### Ejemplo
 
 ![Validación](../img/Dominio/03.png)
+
+---
 
 # Lecciones aprendidas
 
