@@ -244,7 +244,7 @@ Mediante esta plataforma se han puesto en práctica conocimientos de:
 
 ### Ejemplo
 
-![Validación](../img/docker/03.png)
+![Validación](../img/docker/04.png)
 
 ---
 
