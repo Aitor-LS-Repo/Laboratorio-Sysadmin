@@ -68,8 +68,8 @@ Registro de problemas reales con su diagnóstico y solución: [incidencias](docs
 - [x] Red segmentada, VPN y CA interna
 - [x] Dominio, LAPS, BitLocker y permisos
 - [x] Docker, Portainer y monitorización con alertas
+- [x] Reverse proxy con certificados de la CA interna
 - [ ] Backups automáticos con restauración comprobada
-- [ ] Reverse proxy con certificados de la CA interna
 - [ ] WSUS y MDT
 - [ ] Automatización con Ansible
 - [ ] Sincronización con Entra ID
