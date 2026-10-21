@@ -290,7 +290,7 @@ Esta solución se integra con:
 
 ### Ejemplo
 
-![Validación](../img/Dominio/03.png)
+![Validación](../img/Dominio/04.png)
 
 ---
 
