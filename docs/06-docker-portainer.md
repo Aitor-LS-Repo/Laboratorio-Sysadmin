@@ -128,6 +128,11 @@ Medidas aplicadas:
 - Acceso desde estaciones administrativas.
 - Acceso remoto únicamente mediante VPN.
 
+
+### Ejemplo
+
+![Validación](../img/docker/01.png)
+
 ---
 
 # Uptime Kuma
