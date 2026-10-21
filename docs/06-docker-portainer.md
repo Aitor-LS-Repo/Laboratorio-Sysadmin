@@ -242,6 +242,10 @@ Mediante esta plataforma se han puesto en práctica conocimientos de:
 - Seguridad de plataformas de contenedores.
 - Integración entre servicios Linux y Windows.
 
+### Ejemplo
+
+![Validación](../img/docker/03.png)
+
 ---
 
 # Lecciones aprendidas
